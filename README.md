@@ -34,6 +34,10 @@ The chatbot leverages the Ollama model for code generation
 Interact with the chatbot in the terminal or through the configured frontend (if applicable).
 Ask for code snippets, programming explanations, or example exercises.
 
+## Check it online
+
+Project is uploaded using Netlify service available on this link: https://nexora-ai-chatbot.netlify.app/
+
 ## Authors:
 
 Ivan Gržetić
