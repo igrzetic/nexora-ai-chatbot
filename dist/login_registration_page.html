@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/64d58efce2.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Nexora AI Chatbot login page</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <svg style="position:absolute;width:0;height:0">
+      <filter id="frosted" primitiveUnits="objectBoundingBox">
+        <feImage
+          href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAF6ESURBVHgB7b1ZsB3HeSb4Z..."
+          x="0" y="0" width="1" height="1" result="map" />
+        <feGaussianBlur in="SourceGraphic" stdDeviation="0.02" result="blur"/>
+        <feDisplacementMap in="blur" in2="map" scale="1" xChannelSelector="R" yChannelSelector="G">
+          <animate attributeName="scale" to="1.4" dur="0.3s" begin="mouseover" fill="freeze"/>
+          <animate attributeName="scale" to="1" dur="0.3s" begin="mouseout" fill="freeze"/>
+        </feDisplacementMap>
+      </filter>
+    </svg>
+    
+    <button id="theme-toggle" class="btn theme-toggle solid">Switch Theme</button>
+    <div class="container">
+          <div class="forms-container">
+            <div class="signin-signup">
+              <form action="#" class="sign-in-form">
+                <h2 class="title">Sign in</h2>
+                <div class="input-field">
+                  <i class="fas fa-user"></i>
+                  <input type="text" placeholder="Username" />
+                </div>
+                <div class="input-field">
+                  <i class="fas fa-lock"></i>
+                  <input type="password" placeholder="Password" />
+                </div>
+                <button type="submit" value="Login" class="btn solid" id="login-btn">
+                  Login
+                </button>
+              </form>
+              <form action="#" class="sign-up-form">
+                <h2 class="title">Sign up</h2>
+                <div class="input-field">
+                  <i class="fas fa-user"></i>
+                  <input type="text" placeholder="Username" />
+                </div>
+                <div class="input-field">
+                  <i class="fas fa-envelope"></i>
+                  <input type="email" placeholder="Email" />
+                </div>
+                <div class="input-field">
+                  <i class="fas fa-lock"></i>
+                  <input type="password" placeholder="Password" />
+                </div>
+                <button type="submit" class="btn solid" id="register-btn">
+                  Sign up
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div class="panels-container">
+            <div class="panel left-panel">
+              <div class="content">
+                <h3>NEXORA CHATBOT</h3>
+                <p>
+                  An AI chatbot powered by Ollama, created to help students learn programming through code generation and interactive assistance.
+                </p>
+                <button class="btn transparent" id="sign-up-btn">
+                  Sign up
+                </button>
+              </div>
+				  <img id="ollama-logo" class="image" alt="ollama logo" />
+            </div>
+            <div class="panel right-panel">
+              <div class="content">
+                <h3>NEXORA CHATBOT</h3>
+                <p>
+                  An AI chatbot powered by Ollama, created to help students learn programming through code generation and interactive assistance.
+                </p>
+                <button class="btn transparent" id="sign-in-btn">
+                  Sign in
+                </button>
+              </div>
+				  <img id="ollama-logo" class="image" alt="ollama logo" />
+            </div>
+          </div>
+        </div>
+      </body>
+    </html>
+    <script src="./script.js"></script>
+  </body>
+</html>
