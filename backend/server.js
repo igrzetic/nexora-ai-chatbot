@@ -4,6 +4,7 @@ import express from "express";
 import mysql from "mysql2";
 import cors from "cors";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
@@ -39,50 +40,63 @@ db.connect((err) => {
 });
 
 // Registracija korisnika
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
   const { username, password, email } = req.body;
 
   if (!username || !password || !email) {
     return res.status(400).send("All fields are required");
   }
 
-  const sql =
-    "INSERT INTO chatbot_users (username, password, email) VALUES (?, ?, ?)";
-  db.query(sql, [username, password, email], (err, results) => {
-    if (err) {
-      console.error("❌ Database error:", err.message);
-      res.status(500).send("❌ Registration failed");
-    } else {
-      console.log("✅ New user registered:", { username, password, email });
-      res.send(`✅ User ${username} registered successfully!`);
-    }
-  });
+  try {
+    // Hash lozinke
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const sql =
+      "INSERT INTO chatbot_users (username, password, email) VALUES (?, ?, ?)";
+    db.query(sql, [username, hashedPassword, email], (err, results) => {
+      if (err) {
+        console.error("❌ Database error:", err.message);
+        return res.status(500).send("❌ Registration failed");
+      } else {
+        console.log("✅ New user registered:", { username, email });
+        return res.send(`✅ User ${username} registered successfully!`);
+      }
+    });
+  } catch (error) {
+    console.error("❌ Hashing error:", error.message);
+    return res.status(500).send("❌ Registration failed");
+  }
 });
 
 // Login korisnika
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
-  const sql = "SELECT * FROM chatbot_users WHERE username = ? AND password = ?";
-  db.query(sql, [username, password], (err, results) => {
+  const sql = "SELECT * FROM chatbot_users WHERE username = ?";
+  db.query(sql, [username], async (err, results) => {
     if (err) {
       console.error("❌ Database error:", err.message);
       return res.status(500).send("❌ Login failed");
     }
 
-    if (results.length > 0) {
-      console.log(
-        "✅ Successful login: username = %s, password = %s",
-        username,
-        password
-      );
-      res.send(`✅ Welcome back, ${username}!`);
-    } else {
-      console.log("⚠️ Failed login attempt:", username);
-      res.status(401).send("❌ Invalid username or password");
+    if (results.length === 0) {
+      console.log("⚠️ Failed login attempt: unknown user", username);
+      return res.status(401).send("❌ Invalid username or password");
     }
 
-    res.send("✅ Login successful!");
+    try {
+      const match = await bcrypt.compare(password, results[0].password);
+      if (match) {
+        console.log("✅ Successful login:", username);
+        return res.send(`✅ Welcome back, ${username}!`);
+      } else {
+        console.log("⚠️ Failed login attempt:", username);
+        return res.status(401).send("❌ Invalid username or password");
+      }
+    } catch (error) {
+      console.error("❌ Login error:", error.message);
+      return res.status(500).send("❌ Login failed");
+    }
   });
 });
 

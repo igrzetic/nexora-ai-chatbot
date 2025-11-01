@@ -10,6 +10,10 @@ The chatbot leverages the Ollama model for code generation
 - **Node.js** – JavaScript runtime environment for the backend.
 - **Express** – Web framework to handle HTTP requests and serve the chatbot API.
 - **npm** – Package manager to install project dependencies.
+- **MySQL2** – Node.js driver to connect to MySQL database.
+- **bcrypt** – Library to hash and compare passwords securely.
+- **dotenv** – Load environment variables from `.env` file.
+- **cors** – Middleware to handle Cross-Origin Resource Sharing.
 - **Ollama AI Model** – AI model used for code generation and terminal interactions.
 
 ## Installation
@@ -19,7 +23,12 @@ The chatbot leverages the Ollama model for code generation
    node -v
    npm -v
 2. Navigate to the project folder and install dependencies:
+   cd backend
+3.	Install all dependencies:
+   npm install express mysql2 bcrypt dotenv cors
+Or simply:
    npm install
+if package.json already lists all dependencies.
 
 ## Running the project
 
@@ -28,6 +37,8 @@ The chatbot leverages the Ollama model for code generation
    
    Or if you have nodemon installed for auto-reloading:
    npx nodemon server.js
+2.	Open your browser at:
+   http://localhost:3001
 
 ## Usage
 
@@ -40,5 +51,5 @@ Project is uploaded using Netlify service available on this link: https://nexora
 
 ## Authors:
 
-Ivan Gržetić
+Ivan Gržetić,
 Armin Lišić

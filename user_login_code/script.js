@@ -44,6 +44,11 @@ themeToggle.addEventListener("click", () => {
   setTimeout(updateLogo, 100);
 });
 
+const API_BASE =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3001"
+    : "https://nexora-backend.onrender.com"; // kad deployaš backend
+
 // Obrada prijave
 document
   .querySelector(".sign-up-form")
@@ -51,6 +56,12 @@ document
     e.preventDefault();
 
     const formData = new FormData(e.target);
+
+    console.log("📤 Sending register data:", {
+      username: formData.get("username"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+    });
 
     const response = await fetch("http://localhost:3001/register", {
       method: "POST",
@@ -73,6 +84,11 @@ document
     e.preventDefault();
 
     const formData = new FormData(e.target);
+
+    console.log("📤 Sending login data:", {
+      username: formData.get("username"),
+      password: formData.get("password"),
+    });
 
     const response = await fetch("http://localhost:3001/login", {
       method: "POST",
