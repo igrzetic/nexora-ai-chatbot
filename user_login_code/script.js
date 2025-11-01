@@ -47,7 +47,7 @@ themeToggle.addEventListener("click", () => {
 const API_BASE =
   window.location.hostname === "localhost"
     ? "http://localhost:3001"
-    : "https://nexora-backend.onrender.com"; // kad deployaš backend
+    : "https://nexora-ai-chatbot-backend.onrender.com";
 
 // Obrada prijave
 document

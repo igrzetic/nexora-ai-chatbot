@@ -14,36 +14,48 @@ The chatbot leverages the Ollama model for code generation
 - **bcrypt** – Library to hash and compare passwords securely.
 - **dotenv** – Load environment variables from `.env` file.
 - **cors** – Middleware to handle Cross-Origin Resource Sharing.
-- **Ollama AI Model** – AI model used for code generation and terminal interactions.
+- **Ollama AI Model** – AI model used for code generation.
+- **Render.com** – Hosting platform for the backend.
+- **Netlify** – Hosting platform for the frontend.
 
-## Installation
+---
+
+## Installation (Local Development)
 
 1. Make sure Node.js and npm are installed:
    ```bash
    node -v
    npm -v
-2. Navigate to the project folder and install dependencies:
-   cd backend
-3.	Install all dependencies:
-   npm install express mysql2 bcrypt dotenv cors
-Or simply:
+2. Clone the repository:
+   git clone https://github.com/igrzetic/nexora-ai-chatbot.git
+   cd nexora-ai-chatbot/backend
+3. Install backend dependencies::
    npm install
-if package.json already lists all dependencies.
-
-## Running the project
-
-1. Start the server:
-   node server.js
-   
-   Or if you have nodemon installed for auto-reloading:
-   npx nodemon server.js
-2.	Open your browser at:
+4. Create a .env file in the backend folder with your database credentials:	- SKIP THIS STEP CURRENTLY - my own .env file is currently uploaded on guthub for testing purposes only, connected to my personal database!
+   DB_HOST=localhost
+   DB_PORT=3306
+   DB_USER=your_db_user
+   DB_PASSWORD=your_db_password
+   DB_NAME=your_db_name
+5. Start the server:
+npm start
+6. Open your browser and navigate to:
    http://localhost:3001
+
+## Running the project (Live / Render Backend)
+
+   - The backend is hosted on Render.com:
+	https://nexora-ai-chatbot-backend.onrender.com
+   - Frontend (Netlify) automatically uses the live backend URL if not running locally.
+   - If running frontend locally, you can configure script.js API_BASE to point to Render backend:
+	const API_BASE = "https://nexora-ai-chatbot-backend.onrender.com";
 
 ## Usage
 
-Interact with the chatbot in the terminal or through the configured frontend (if applicable).
-Ask for code snippets, programming explanations, or example exercises.
+   - Register a new user account.
+   - Log in with your credentials.
+   - Interact with the AI chatbot in the terminal-like interface or through the frontend.
+   - Ask for code snippets, programming explanations, or example exercises.
 
 ## Check it online
 
