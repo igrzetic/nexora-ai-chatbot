@@ -49,6 +49,20 @@ const API_BASE =
     ? "http://localhost:3001"
     : "https://nexora-ai-chatbot-backend.onrender.com";
 
+const alertBox = document.querySelector(".alert");
+
+function showAlert(message, type) {
+  alertBox.textContent = message;
+  alertBox.className = "alert"; // Reset classes
+  alertBox.classList.add(
+    type === "success" ? "alert-success" : "alert-error",
+    "show"
+  );
+  setTimeout(() => {
+    alertBox.classList.remove("show");
+  }, 3000);
+}
+
 // Obrada prijave
 document
   .querySelector(".sign-up-form")
@@ -63,18 +77,26 @@ document
       password: formData.get("password"),
     });
 
-    const response = await fetch("http://localhost:3001/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: formData.get("username"),
-        password: formData.get("password"),
-        email: formData.get("email"),
-      }),
-    });
+    try {
+      const response = await fetch(`${API_BASE}/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: formData.get("username"),
+          password: formData.get("password"),
+          email: formData.get("email"),
+        }),
+      });
 
-    const text = await response.text();
-    alert(text);
+      const text = await response.text();
+      if (response.ok) {
+        showAlert(text, "success");
+      } else {
+        showAlert(text, "error");
+      }
+    } catch (error) {
+      showAlert("Network error. Please try again.", "error");
+    }
   });
 
 // Obrada prijave
@@ -90,15 +112,23 @@ document
       password: formData.get("password"),
     });
 
-    const response = await fetch("http://localhost:3001/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: formData.get("username"),
-        password: formData.get("password"),
-      }),
-    });
+    try {
+      const response = await fetch(`${API_BASE}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: formData.get("username"),
+          password: formData.get("password"),
+        }),
+      });
 
-    const text = await response.text();
-    alert(text);
+      const text = await response.text();
+      if (response.ok) {
+        showAlert(text, "success");
+      } else {
+        showAlert(text, "error");
+      }
+    } catch (error) {
+      showAlert("Network error. Please try again.", "error");
+    }
   });

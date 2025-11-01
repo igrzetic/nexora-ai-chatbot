@@ -32,7 +32,7 @@
   --shadow-l: inset 0 1px 2px #ffffff70, /* top highlight */ 0 4px 6px #00000030,
     /* dark shadow */ 0 6px 10px #00000015; /* soft shadow */
 
-    /* images */
+  /* images */
   --logo-light: url("./images/ollama-light-mode-logo.png");
   --logo-dark: url("./images/ollama-dark-mode-logo.png");
 }
@@ -420,14 +420,15 @@ body.light .container {
 
 @media (max-width: 870px) {
   .container {
-    min-height: 800px;
+    min-height: 700px;
     height: 100vh;
   }
   .signin-signup {
-    width: 100%;
-    top: 95%;
-    transform: translate(-50%, -100%);
-    transition: 1s 0.8s ease-in-out;
+    width: 90%;
+    top: 90%;
+    transform: translate(-50%, -90%);
+    transition: 0.8s ease-in-out;
+    padding: 0 1rem;
   }
 
   .signin-signup,
@@ -437,14 +438,14 @@ body.light .container {
 
   .panels-container {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 1.5fr 1fr;
   }
 
   .panel {
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    padding: 2.5rem 8%;
+    padding: 1.5rem 5%;
     grid-column: 1 / 2;
   }
 
@@ -457,93 +458,158 @@ body.light .container {
   }
 
   .image {
-    width: 200px;
-    transition: transform 0.9s ease-in-out;
-    transition-delay: 0.6s;
+    width: 150px;
+    margin-bottom: 0;
+    transition: transform 0.6s ease-in-out;
+    transition-delay: 0.3s;
   }
 
   .panel .content {
-    padding-right: 15%;
-    transition: transform 0.9s ease-in-out;
-    transition-delay: 0.8s;
+    padding-right: 10%;
+    transition: transform 0.6s ease-in-out;
+    transition-delay: 0.5s;
+    max-width: 60%;
   }
 
   .panel h3 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .panel p {
-    font-size: 0.7rem;
-    padding: 0.5rem 0;
+    font-size: 0.75rem;
+    padding: 0.25rem 0;
   }
 
   .btn.transparent {
-    width: 110px;
+    width: 100px;
     height: 35px;
     font-size: 0.7rem;
   }
 
   .container:before {
-    width: 1500px;
-    height: 1500px;
+    width: 1300px;
+    height: 1300px;
     transform: translateX(-50%);
-    left: 30%;
-    bottom: 68%;
+    left: 35%;
+    bottom: 65%;
     right: initial;
     top: initial;
-    transition: 2s ease-in-out;
+    transition: 1.5s ease-in-out;
+    border-width: 2px;
   }
 
   .container.sign-up-mode:before {
     transform: translate(-50%, 100%);
-    bottom: 32%;
+    bottom: 35%;
     right: initial;
   }
 
   .container.sign-up-mode .left-panel .image,
   .container.sign-up-mode .left-panel .content {
-    transform: translateY(-300px);
+    transform: translateY(-200px);
   }
 
   .container.sign-up-mode .right-panel .image,
   .container.sign-up-mode .right-panel .content {
-    transform: translateY(0px);
+    transform: translateY(0);
   }
 
   .right-panel .image,
   .right-panel .content {
-    transform: translateY(300px);
+    transform: translateY(200px);
   }
 
   .container.sign-up-mode .signin-signup {
-    top: 5%;
+    top: 10%;
     transform: translate(-50%, 0);
   }
 }
 
 @media (max-width: 570px) {
   form {
-    padding: 0 1.5rem;
+    padding: 0 1rem;
+    width: 100%;
+    max-width: 350px;
   }
 
   .image {
     display: none;
   }
   .panel .content {
-    padding: 0.5rem 1rem;
+    padding: 0.3rem 0.5rem;
+    max-width: 100%;
   }
   .container {
-    padding: 1.5rem;
+    padding: 1rem;
   }
 
   .container:before {
-    bottom: 72%;
+    bottom: 70%;
     left: 50%;
+    width: 1000px;
+    height: 1000px;
+    border-width: 1.5px;
   }
 
   .container.sign-up-mode:before {
-    bottom: 28%;
+    bottom: 30%;
     left: 50%;
+  }
+
+  .signin-signup {
+    width: 95%;
+    top: 85%;
+    transform: translate(-50%, -85%);
+    padding: 0 0.5rem;
+  }
+}
+
+/* Alert styles for login and register forms */
+.alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 280px;
+  max-width: 90%;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 9999;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.alert.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.alert-success {
+  background-color: #28a745; /* green */
+  border: 1px solid #1e7e34;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.6);
+}
+
+.alert-error {
+  background-color: #dc3545; /* red */
+  border: 1px solid #b02a37;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.6);
+}
+
+@media (max-width: 570px) {
+  .alert {
+    min-width: 90%;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+    top: 10px;
   }
 }
 
