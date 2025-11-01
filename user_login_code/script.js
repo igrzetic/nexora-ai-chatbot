@@ -52,9 +52,35 @@ document
 
     const formData = new FormData(e.target);
 
-    const response = await fetch("register_user.php", {
+    const response = await fetch("http://localhost:3001/register", {
       method: "POST",
-      body: formData,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: formData.get("username"),
+        password: formData.get("password"),
+        email: formData.get("email"),
+      }),
+    });
+
+    const text = await response.text();
+    alert(text);
+  });
+
+// Obrada prijave
+document
+  .querySelector(".sign-in-form")
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+
+    const response = await fetch("http://localhost:3001/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: formData.get("username"),
+        password: formData.get("password"),
+      }),
     });
 
     const text = await response.text();
