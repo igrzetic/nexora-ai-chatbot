@@ -15,11 +15,11 @@ app.use(express.json());
 // 🔹 Postavljanje putanje do tvoje 'dist' mape
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, "../user_login_code")));
+app.use(express.static(path.join(__dirname, "../public")));
 
 // 🔹 Kad otvoriš http://localhost:3001, posluži index.html
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../user_login_code/index.html"));
+  res.sendFile(path.join(__dirname, "../public/user_login_code/index.html"));
 });
 
 // 🔌 Povezivanje na bazu (koristiš Veleri server)
