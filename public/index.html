@@ -18,7 +18,7 @@
     <header class="border-b border-primary-20 backdrop-blur-sm">
       <div class="container mx-auto px-4 py-4 flex items-center justify-between">
         <div class="text-2xl font-bold glow-text">NEXORA</div>
-        <button onclick="window.location.href = '../user_login_code/index.html';" class="border border-primary-30 bg-primary-10 px-4 py-2 rounded">Login</button>
+        <button onclick="window.location.href = './user_login_code/index.html';" class="border border-primary-30 bg-primary-10-hover px-4 py-2 rounded">Login</button>
       </div>
     </header>
     
@@ -34,12 +34,12 @@
             AI chatbot powered by Ollama model for instant code generation. Built for students who want to master programming.
         </p>
         <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-            <button id="get-started-btn" class="bg-green-500 hover:bg-green-600 text-black font-bold uppercase px-8 py-3 rounded flex items-center justify-center gap-4 group">Get Started
+            <button id="get-started-btn" onclick="window.location.href = './user_login_code/index.html';" class="bg-primary text-primary-foreground bg-primary-90-hover font-bold uppercase px-8 py-3 rounded flex items-center justify-center gap-4 group">Get Started
               <span class="material-symbols-outlined">
                 arrow_right_alt
               </span>
             </button>
-            <button class="border border-green-400/30 hover:bg-green-400/10 font-bold uppercase px-8 py-3 rounded">Learn More</button>
+            <button class="border border-primary-30 bg-primary-10-hover font-bold uppercase px-8 py-3 rounded">Learn More</button>
         </div>
      </section>
 
@@ -48,34 +48,34 @@
         <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
 
           <!-- Feature 1 -->
-           <div class="p-6 bg-gray-900/30 backdrop-blur-sm border border-green-400/20 rounded hover:border-green-400/40 transition-all group animate-fade-in">
-            <div class="w-12 h-12 bg-green-400/10 border border-green-400/30 rounded flex items-center justify-center mb-4 group-hover:bg-green-400/20 transition-colors">
-              <span class="material-symbols-outlined text-green-400 text-3xl">code</span>
+           <div class="feature-card p-6 bg-card-30 backdrop-blur-sm border border-primary-20 rounded border-primary-40-hover transition-all group animate-fade-in">
+            <div class="feature-icon w-12 h-12 bg-primary-10 border border-primary-30 rounded flex items-center justify-center mb-4 transition-colors">
+              <span class="material-symbols-outlined text-primary text-3xl">code</span>
             </div>
             <h3 class="text-xl font-bold mb-2">CODE GENERATION</h3>
-            <p class="text-gray-400 text-sm">
+            <p class="text-muted-foreground text-sm">
                Generate production-ready code in any programming language instantly with AI.
             </p>
           </div>
 
           <!-- Feature 2 -->
-           <div class="p-6 bg-gray-900/30 backdrop-blur-sm border border-green-400/20 rounded hover:border-green-400/40 transition-all group animate-fade-in">
-            <div class="w-12 h-12 bg-green-400/10 border border-green-400/30 rounded flex items-center justify-center mb-4 group-hover:bg-green-400/20 transition-colors">
-              <span class="material-symbols-outlined text-green-400 text-3xl">terminal</span>
+           <div class="feature-card p-6 bg-card-30 backdrop-blur-sm border border-primary-20 rounded border-primary-40-hover transition-all group animate-fade-in">
+            <div class="feature-icon w-12 h-12 bg-primary-10 border border-primary-30 rounded flex items-center justify-center mb-4 transition-colors">
+              <span class="material-symbols-outlined text-primary text-3xl">terminal</span>
             </div>
             <h3 class="text-xl font-bold mb-2">TERMINAL STYLE</h3>
-            <p class="text-gray-400 text-sm">
+            <p class="text-muted-foreground text-sm">
                Beautiful syntax-highlighted code output in a developer-friendly terminal interface.
             </p>
           </div>
 
           <!-- Feature 3 -->
-           <div class="p-6 bg-gray-900/30 backdrop-blur-sm border border-green-400/20 rounded hover:border-green-400/40 transition-all group animate-fade-in">
-            <div class="w-12 h-12 bg-green-400/10 border border-green-400/30 rounded flex items-center justify-center mb-4 group-hover:bg-green-400/20 transition-colors">
-              <span class="material-symbols-outlined text-green-400 text-3xl">bolt</span>
+           <div class="feature-card p-6 bg-card-30 backdrop-blur-sm border border-primary-20 rounded border-primary-40-hover transition-all group animate-fade-in">
+            <div class="feature-icon w-12 h-12 bg-primary-10 border border-primary-30 rounded flex items-center justify-center mb-4 transition-colors">
+              <span class="material-symbols-outlined text-primary text-3xl">bolt</span>
             </div>
             <h3 class="text-xl font-bold mb-2">INSTANT LEARNING</h3>
-            <p class="text-gray-400 text-sm">
+            <p class="text-muted-foreground text-sm">
                Get explanations and examples that help you understand and learn programming concepts.
             </p>
           </div>
@@ -84,15 +84,14 @@
 
       <!-- CTA Section -->
        <section class="container mx-auto px-4 py-24">
-        <div class="max-w-3xl-mx-auto text-center space-y-6 p-12 bg-card/20 backdrop-blur-sm border border-primary/30 rounded-lg glow-border animate-fade-in">
+        <div class="max-w-3xl mx-auto text-center space-y-6 p-12 bg-card-20 backdrop-blur-sm border border-primary-30 rounded-lg glow-border animate-fade-in">
           <h2 class="text-4xl font-bold">Ready to Start Learning?</h2>
           <p class="text-muted-foreground text-lg">
               Join thousands of students using Nexora AI to accelerate their programming journey.
           </p>
           <Button
-              onclick=""
-              size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider text-lg px-12 py-6"
+              onclick="window.location.href = './user_login_code/index.html';"
+              class="bg-primary text-primary-foreground bg-primary-90-hover font-bold uppercase tracking-wider text-lg px-12 py-3 rounded "
             >
               Create Free Account
             </Button>
@@ -100,7 +99,7 @@
        </section>
 
        <!-- Footer -->
-        <footer class="border-t border-primary/20 py-8 mt-24">
+        <footer class="border-t border-primary-20 py-8 mt-24">
           <div class="container mx-auto px-4 text-center text-sm text-muted-foreground">
             <p>NEXORA © 2024 • Free AI Code Generation for Students</p>
           </div>
