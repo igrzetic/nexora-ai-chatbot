@@ -10,15 +10,18 @@
   </head>
   <body class="min-h-screen terminal-grid relative overflow-x-hidden">
     <!-- Radial glow effect -->
-     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(180_100%_50%_/_0.15),transparent_50%)] pointer-events-none"></div>
-     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,hsl(180_100%_50%_/_0.1),transparent_50%)] pointer-events-none"></div>
-    <div className="relative z-10">
+     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(52_94%_61%_/_0.15),transparent_50%)] pointer-events-none"></div>
+     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,hsl(52_94%_61%_/_0.1),transparent_50%)] pointer-events-none"></div>
+    <div class="relative z-10">
     
     <!-- Header -->
     <header class="border-b border-primary-20 backdrop-blur-sm">
       <div class="container mx-auto px-4 py-4 flex items-center justify-between">
         <div class="text-2xl font-bold glow-text">NEXORA</div>
-        <button onclick="window.location.href = './user_login_code/index.html';" class="border border-primary-30 bg-primary-10-hover px-4 py-2 rounded">Login</button>
+        <div class="space-x-4">
+          <button onclick="window.location.href = './user_login_code/index.html';" class="border border-primary-30 bg-primary-10-hover px-4 py-2 rounded">Login</button>
+          <button id="theme-toggle" class="border border-primary-30 bg-primary-10-hover px-4 py-2 rounded">Switch Theme</button>
+        </div>
       </div>
     </header>
     
@@ -106,3 +109,4 @@
         </footer>
   </body>
 </html>
+<script src="./script.js"></script>

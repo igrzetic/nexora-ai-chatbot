@@ -9,8 +9,8 @@
   --popover: 0 0% 6%;
   --popover-foreground: 0 0% 98%;
 
-  /* Neon blue primary - terminal inspired */
-  --primary: 217 91% 60%;
+  /* Neon yellow primary - terminal inspired */
+  --primary: 52 94% 61%;
   --primary-foreground: 0 0% 3%;
   --primary-glow: 217 91% 70%;
 
@@ -19,7 +19,7 @@
   --secondary-foreground: 0 0% 98%;
 
   --muted: 0 0% 12%;
-  --muted-foreground: 0 0% 55%;
+  --muted-foreground: 0 0% 69% / 1;
 
   /* Bright cyan accent for highlights */
   --accent: 195 100% 60%;
@@ -35,7 +35,7 @@
   /* Custom design tokens */
   --terminal-blue: 217 91% 60%;
   --terminal-cyan: 195 100% 60%;
-  --grid-opacity: 0.03;
+  --grid-opacity: 0.04;
 
   /* Gradients */
   --gradient-primary: linear-gradient(
@@ -65,7 +65,7 @@
 }
 
 body.light {
-  --background: 0 0% 100%;
+  --background: 0 0% 92%;
   --foreground: 0 0% 5%;
 
   --card: 0 0% 98%;
@@ -75,7 +75,7 @@ body.light {
   --popover-foreground: 0 0% 5%;
 
   /* Neon blue primary - slightly darker for light mode */
-  --primary: 217 91% 45%;
+  /* --primary: 221 77% 50%; */
   --primary-foreground: 0 0% 98%;
   --primary-glow: 217 91% 60%;
 
@@ -84,11 +84,11 @@ body.light {
   --secondary-foreground: 0 0% 5%;
 
   --muted: 0 0% 93%;
-  --muted-foreground: 0 0% 40%;
+  --muted-foreground: 0 0% 28% / 1;
 
   /* Bright cyan accent */
-  --accent: 195 100% 50%;
-  --accent-foreground: 0 0% 98%;
+  /* --accent: 195 100% 50%; */
+  /* --accent-foreground: 0 0% 98%; */
 
   --destructive: 0 84% 50%;
   --destructive-foreground: 0 0% 98%;
@@ -102,7 +102,7 @@ body.light {
   /* Custom design tokens */
   --terminal-blue: 217 91% 45%;
   --terminal-cyan: 195 100% 50%;
-  --grid-opacity: 0.05;
+  --grid-opacity: 0.09;
 
   /* Gradients */
   --gradient-primary: linear-gradient(
@@ -143,12 +143,12 @@ body {
 /* Terminal grid background */
 .terminal-grid {
   background-image: linear-gradient(
-      hsl(217 91% 60% / var(--grid-opacity)) 1px,
+      hsl(52 94% 40% / var(--grid-opacity)) 1px,
       transparent 1px
     ),
     linear-gradient(
       90deg,
-      hsl(217 91% 60% / var(--grid-opacity)) 1px,
+      hsl(52 94% 40% / var(--grid-opacity)) 1px,
       transparent 1px
     );
   background-size: 30px 30px;
@@ -157,6 +157,10 @@ body {
 /* Glow effects */
 .glow-text {
   text-shadow: 0 0 10px hsl(var(--primary)), 0 0 20px hsl(var(--primary) / 0.5);
+}
+
+body.light .glow-text {
+  text-shadow: none;
 }
 
 .glow-border {
@@ -285,6 +289,9 @@ body {
 }
 .border-primary-20 {
   border-color: hsl(var(--primary) / 0.2);
+}
+body.light .border-primary-20 {
+  border-color: hsl(var(--primary) / 0.8);
 }
 .border-primary-30 {
   border-color: hsl(var(--primary) / 0.3);

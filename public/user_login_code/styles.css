@@ -9,6 +9,9 @@
   --bg: oklch(0.2 0 264);
   --bg-light: oklch(0.3 0 264);
 
+  --grid-opacity: 0.04;
+  --grid-color: oklch(from var(--primary) l c h / var(--grid-opacity));
+
   /* glass effect colors */
   --glass-bg: rgba(30, 30, 40, 0.25);
   --glass-bg-input-field: rgba(30, 30, 40, 0.5);
@@ -16,6 +19,19 @@
   --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
   --glass-blur: 0.5rem;
   --glass-blur-input-field: 1rem;
+
+  /* radial glow */
+  --radial-top: radial-gradient(
+      ellipse at top,
+      oklch(from var(--primary) l c h / 0.20),
+      transparent 60%
+  );
+
+  --radial-bottom: radial-gradient(
+      ellipse at bottom,
+      oklch(from var(--primary) l c h / 0.15),
+      transparent 60%
+  );
 
   /* text-colors */
   --text: oklch(0.96 0 264);
@@ -45,6 +61,9 @@ body.light {
   --bg-dark-inverse: oklch(0.1 0 264);
   --bg: oklch(0.96 0 264);
   --bg-light: oklch(1 0 264);
+
+  --grid-opacity: 0.2;
+  --grid-color: oklch(from var(--primary) l c h / var(--grid-opacity));
 
   /* glass effect colors */
   --glass-bg: rgba(255, 255, 255, 0.45);
@@ -81,13 +100,22 @@ input {
 .container {
   position: relative;
   width: 100%;
-  background-color: var(--bg-dark);
   min-height: 100vh;
   overflow: hidden;
-}
 
-body.light .container {
-  background-image: var(--logo-dark);
+  background: 
+    var(--radial-top),
+    var(--radial-bottom),
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
+    var(--bg-dark); /* background boja na dnu */
+
+  background-size: 
+    100% 100%,
+    100% 100%,
+    30px 30px,
+    30px 30px,
+    auto;
 }
 
 .forms-container {
@@ -328,32 +356,6 @@ form.sign-in-form {
 
 /* ANIMATION */
 
-.container {
-  background-image: var(--logo-light);
-  background-repeat: repeat;
-  background-size: 2.5rem 2.5rem;
-  background-position: 0 0;
-  animation: movePattern 12s linear infinite;
-  transform: rotateZ(0deg);
-  overflow: hidden;
-}
-
-body.light .container {
-  background-image: var(--logo-dark);
-}
-
-@keyframes movePattern {
-  0% {
-    background-position: 0 0;
-  }
-  50% {
-    background-position: 2.5rem 2.5rem;
-  }
-  100% {
-    background-position: 0 0;
-  }
-}
-
 .container.sign-up-mode:before {
   transform: translate(100%, -50%);
   right: 52%;
@@ -574,7 +576,7 @@ body.light .container {
   max-width: 90%;
   padding: 1rem 1.5rem;
   border-radius: 0.75rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   color: #fff;
   font-weight: 600;
   font-size: 1rem;
