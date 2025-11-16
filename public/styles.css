@@ -9,8 +9,8 @@
   --popover: 0 0% 6%;
   --popover-foreground: 0 0% 98%;
 
-  /* Neon yellow primary - terminal inspired */
-  --primary: 52 94% 61%;
+  /* Neon orange primary - terminal inspired */
+  --primary: 32 94% 61%;
   --primary-foreground: 0 0% 3%;
   --primary-glow: 217 91% 70%;
 
@@ -49,10 +49,20 @@
     transparent 70%
   );
 
-  /* Shadows */
-  --shadow-neon: 0 0 20px hsl(217 91% 60% / 0.3),
-    0 0 40px hsl(217 91% 60% / 0.1);
-  --shadow-brutal: 4px 4px 0 hsl(217 91% 60%);
+  /* shadows */
+  --shadow-s: inset 0 1px 2px #ffffff30, /* top highlight */ 0 1px 2px #00000030,
+    /* dark shadow */ 0 2px 4px #00000015; /* soft shadow */
+  --shadow-m: inset 0 1px 2px #ffffff50, /* top highlight */ 0 2px 4px #00000030,
+    /* dark shadow */ 0 4px 8px #00000015; /* soft shadow */
+  --shadow-l: inset 0 1px 2px #ffffff70, /* top highlight */ 0 4px 6px #00000030,
+    /* dark shadow */ 0 6px 10px #00000015; /* soft shadow */
+
+  /* glass effect colors */
+  --glass-bg: 240, 14%, 14%;
+  --glass-bg-input-field: 240, 14%, 14%;
+  --glass-shadow: 0 4px 30px 0, 0%, 0%;
+  --glass-blur: 0.5rem;
+  --glass-blur-input-field: 1rem;
 
   --sidebar-background: 0 0% 6%;
   --sidebar-foreground: 0 0% 98%;
@@ -143,12 +153,12 @@ body {
 /* Terminal grid background */
 .terminal-grid {
   background-image: linear-gradient(
-      hsl(52 94% 40% / var(--grid-opacity)) 1px,
+      hsl(32 94% 40% / var(--grid-opacity)) 1px,
       transparent 1px
     ),
     linear-gradient(
       90deg,
-      hsl(52 94% 40% / var(--grid-opacity)) 1px,
+      hsl(32 94% 40% / var(--grid-opacity)) 1px,
       transparent 1px
     );
   background-size: 30px 30px;
@@ -191,6 +201,10 @@ body.light .glow-text {
   animation: fade-in 0.8s ease forwards;
 }
 
+button.solid {
+  box-shadow: var(--shadow-l) !important;
+}
+
 /* ------------------- */
 /* Utility classes */
 /* ------------------- */
@@ -212,6 +226,21 @@ body.light .glow-text {
 }
 .bg-card-30 {
   background-color: hsl(var(--card)) / 0.3;
+}
+.bg-card-glass {
+  background-color: hsl(var(--glass-bg));
+  backdrop-filter: blur(hsl(var(--glass-blur)));
+  box-shadow: hsl(var(--glass-shadow));
+}
+.bg-card-glass-20 {
+  background: hsl(var(--glass-bg)) / 0.2;
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  box-shadow: hsl(var(--glass-shadow)) / 0.2;
+}
+.bg-card-glass-30 {
+  background-color: hsl(var(--glass-bg)) / 0.3;
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  box-shadow: hsl(var(--glass-shadow)) / 0.3;
 }
 .text-card-foreground {
   color: hsl(var(--card-foreground));
@@ -393,6 +422,27 @@ body.light .border-primary-20 {
   background-color: hsl(var(--primary) / 0.3);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background-color: hsl(var(--primary) / 0.5);
+}
+
+/* Pulsating radial glow effect */
+.radial-pulse {
+  animation: radialPulseGlow 4s ease-in-out infinite;
+}
+
+@keyframes radialPulseGlow {
+  0% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
 }

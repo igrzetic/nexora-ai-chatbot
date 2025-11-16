@@ -2,8 +2,8 @@
 
 :root {
   /* bg-colors */
-  --primary: oklch(90.107% 0.17051 100.071 / 0.95);
-  --primary-hover: oklch(84.735% 0.1486 99.192 / 0.85);
+  --primary: hsl(32, 94%, 61%);
+  --primary-hover: hsl(32, 94%, 55%);
   --bg-dark: oklch(0.1 0 264);
   --bg-dark-inverse: oklch(0.92 0 264);
   --bg: oklch(0.2 0 264);
@@ -13,10 +13,10 @@
   --grid-color: oklch(from var(--primary) l c h / var(--grid-opacity));
 
   /* glass effect colors */
-  --glass-bg: rgba(30, 30, 40, 0.25);
-  --glass-bg-input-field: rgba(30, 30, 40, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.15);
-  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+  --glass-bg: hsla(240, 14%, 14%, 0.25);
+  --glass-bg-input-field: hsla(240, 14%, 14%, 0.5);
+  --glass-border: hsla(0, 0%, 100%, 0.15);
+  --glass-shadow: 0 4px 30px hsla(0, 0%, 0%, 0.6);
   --glass-blur: 0.5rem;
   --glass-blur-input-field: 1rem;
 

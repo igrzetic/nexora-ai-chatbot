@@ -10,8 +10,8 @@
   </head>
   <body class="min-h-screen terminal-grid relative overflow-x-hidden">
     <!-- Radial glow effect -->
-     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(52_94%_61%_/_0.15),transparent_50%)] pointer-events-none"></div>
-     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,hsl(52_94%_61%_/_0.1),transparent_50%)] pointer-events-none"></div>
+     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(32_94%_61%_/_0.15),transparent_50%)] pointer-events-none radial-pulse"></div>
+     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,hsl(32_94%_61%_/_0.1),transparent_50%)] pointer-events-none radial-pulse"></div>
     <div class="relative z-10">
     
     <!-- Header -->
@@ -19,8 +19,8 @@
       <div class="container mx-auto px-4 py-4 flex items-center justify-between">
         <div class="text-2xl font-bold glow-text">NEXORA</div>
         <div class="space-x-4">
-          <button onclick="window.location.href = './user_login_code/index.html';" class="border border-primary-30 bg-primary-10-hover px-4 py-2 rounded">Login</button>
-          <button id="theme-toggle" class="border border-primary-30 bg-primary-10-hover px-4 py-2 rounded">Switch Theme</button>
+          <button onclick="window.location.href = './user_login_code/index.html';" class="border border-primary-30 bg-primary-10-hover px-4 py-2 rounded-lg">Login</button>
+          <!-- <button id="theme-toggle" class="border border-primary-30 bg-primary-10-hover px-4 py-2 rounded">Switch Theme</button> -->
         </div>
       </div>
     </header>
@@ -37,12 +37,12 @@
             AI chatbot powered by Ollama model for instant code generation. Built for students who want to master programming.
         </p>
         <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-            <button id="get-started-btn" onclick="window.location.href = './user_login_code/index.html';" class="bg-primary text-primary-foreground bg-primary-90-hover font-bold uppercase px-8 py-3 rounded flex items-center justify-center gap-4 group">Get Started
+            <button id="get-started-btn" onclick="window.location.href = './user_login_code/index.html';" class="solid bg-primary text-primary-foreground bg-primary-90-hover font-bold uppercase px-8 py-3 rounded-lg flex items-center justify-center gap-4 group">Get Started
               <span class="material-symbols-outlined">
                 arrow_right_alt
               </span>
             </button>
-            <button class="border border-primary-30 bg-primary-10-hover font-bold uppercase px-8 py-3 rounded">Learn More</button>
+            <button class="border border-primary-30 bg-primary-10-hover font-bold uppercase px-8 py-3 rounded-lg">Learn More</button>
         </div>
      </section>
 
@@ -51,7 +51,7 @@
         <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
 
           <!-- Feature 1 -->
-           <div class="feature-card p-6 bg-card-30 backdrop-blur-sm border border-primary-20 rounded border-primary-40-hover transition-all group animate-fade-in">
+           <div class="feature-card p-6 bg-card-glass-30 backdrop-blur-sm border border-primary-20 rounded-2xl border-primary-40-hover transition-all group animate-fade-in">
             <div class="feature-icon w-12 h-12 bg-primary-10 border border-primary-30 rounded flex items-center justify-center mb-4 transition-colors">
               <span class="material-symbols-outlined text-primary text-3xl">code</span>
             </div>
@@ -62,7 +62,7 @@
           </div>
 
           <!-- Feature 2 -->
-           <div class="feature-card p-6 bg-card-30 backdrop-blur-sm border border-primary-20 rounded border-primary-40-hover transition-all group animate-fade-in">
+           <div class="feature-card p-6 bg-card-glass-30 backdrop-blur-sm border border-primary-20 rounded-2xl border-primary-40-hover transition-all group animate-fade-in">
             <div class="feature-icon w-12 h-12 bg-primary-10 border border-primary-30 rounded flex items-center justify-center mb-4 transition-colors">
               <span class="material-symbols-outlined text-primary text-3xl">terminal</span>
             </div>
@@ -73,7 +73,7 @@
           </div>
 
           <!-- Feature 3 -->
-           <div class="feature-card p-6 bg-card-30 backdrop-blur-sm border border-primary-20 rounded border-primary-40-hover transition-all group animate-fade-in">
+           <div class="feature-card p-6 bg-card-glass-30 backdrop-blur-sm border border-primary-20 rounded-2xl border-primary-40-hover transition-all group animate-fade-in">
             <div class="feature-icon w-12 h-12 bg-primary-10 border border-primary-30 rounded flex items-center justify-center mb-4 transition-colors">
               <span class="material-symbols-outlined text-primary text-3xl">bolt</span>
             </div>
@@ -87,14 +87,14 @@
 
       <!-- CTA Section -->
        <section class="container mx-auto px-4 py-24">
-        <div class="max-w-3xl mx-auto text-center space-y-6 p-12 bg-card-20 backdrop-blur-sm border border-primary-30 rounded-lg glow-border animate-fade-in">
+        <div class="max-w-3xl mx-auto text-center space-y-6 p-12 bg-card-glass-20 backdrop-blur-sm border border-primary-30 rounded-2xl glow-border animate-fade-in">
           <h2 class="text-4xl font-bold">Ready to Start Learning?</h2>
           <p class="text-muted-foreground text-lg">
               Join thousands of students using Nexora AI to accelerate their programming journey.
           </p>
           <Button
               onclick="window.location.href = './user_login_code/index.html';"
-              class="bg-primary text-primary-foreground bg-primary-90-hover font-bold uppercase tracking-wider text-lg px-12 py-3 rounded "
+              class="solid bg-primary text-primary-foreground bg-primary-90-hover font-bold uppercase tracking-wider text-lg px-12 py-3 rounded-lg"
             >
               Create Free Account
             </Button>
