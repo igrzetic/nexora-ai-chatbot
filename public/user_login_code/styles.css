@@ -14,23 +14,23 @@
 
   /* glass effect colors */
   --glass-bg: hsla(240, 14%, 14%, 0.25);
-  --glass-bg-input-field: hsla(240, 14%, 14%, 0.5);
-  --glass-border: hsla(0, 0%, 100%, 0.15);
+  --glass-bg-input-field: hsla(240, 14%, 14%, 0.25);
+  --glass-border: hsla(240, 14%, 14%, 0.15);
   --glass-shadow: 0 4px 30px hsla(0, 0%, 0%, 0.6);
   --glass-blur: 0.5rem;
   --glass-blur-input-field: 1rem;
 
   /* radial glow */
   --radial-top: radial-gradient(
-      ellipse at top,
-      oklch(from var(--primary) l c h / 0.20),
-      transparent 60%
+    ellipse at top,
+    oklch(from var(--primary) l c h / 0.2),
+    transparent 60%
   );
 
   --radial-bottom: radial-gradient(
-      ellipse at bottom,
-      oklch(from var(--primary) l c h / 0.15),
-      transparent 60%
+    ellipse at bottom,
+    oklch(from var(--primary) l c h / 0.15),
+    transparent 60%
   );
 
   /* text-colors */
@@ -103,19 +103,16 @@ input {
   min-height: 100vh;
   overflow: hidden;
 
-  background: 
-    var(--radial-top),
-    var(--radial-bottom),
-    linear-gradient(var(--grid-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
-    var(--bg-dark); /* background boja na dnu */
+  background-image: var(--logo-dark);
+  background-size: contain;
+  background-position: 700px 60px;
+  background-repeat: no-repeat;
+  transition: background-position 0.9s ease-in-out;
+  transition-delay: 0.6s;
+}
 
-  background-size: 
-    100% 100%,
-    100% 100%,
-    30px 30px,
-    30px 30px,
-    auto;
+.container.sign-up-mode {
+  background-position: 10px 60px;
 }
 
 .forms-container {
@@ -270,7 +267,14 @@ form.sign-in-form {
   top: -10%;
   right: 48%;
   transform: translateY(-50%);
-  background-color: var(--bg-dark-inverse);
+
+  background: var(--radial-top), var(--radial-bottom),
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
+    var(--bg-dark); /* background boja na dnu */
+
+  background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px, auto;
+
   box-shadow: var(--shadow-l);
   border: 3px solid var(--primary);
   transition: 1.8s ease-in-out;
@@ -293,6 +297,8 @@ form.sign-in-form {
   justify-content: space-around;
   text-align: center;
   z-index: 6;
+
+  transform: translateY(-160px);
 }
 
 .left-panel {
@@ -321,12 +327,12 @@ form.sign-in-form {
   font-weight: 600;
   line-height: 1;
   font-size: 1.5rem;
-  color: var(--text-inverse);
+  color: var(--text);
 }
 
 .panel p {
   font-size: 0.95rem;
-  color: var(--text-inverse-muted);
+  color: var(--text-muted);
   padding: 10px;
   line-height: 1.4rem;
 }
@@ -334,8 +340,8 @@ form.sign-in-form {
 .btn.transparent {
   margin: 0;
   background: none;
-  color: var(--text-inverse);
-  border: 2px solid var(--text-inverse);
+  color: var(--text);
+  border: 2px solid var(--text);
   box-shadow: none;
   width: 130px;
   height: 41px;
@@ -418,12 +424,49 @@ form.sign-in-form {
   pointer-events: all;
 }
 
+/* Pulsating radial glow effect */
+
+/* Radial gradient pulse animation using pseudo-element */
+.container::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  /* background: var(--radial-top), var(--radial-bottom); */
+  /* animation: radialPulseGlow 4s ease-in-out infinite; */
+  /* Match gradient sizes to .container */
+  background-size: 100% 100%, 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 1;
+}
+
+@keyframes radialPulseGlow {
+  0% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+}
+
 /* MEDIA QUERIES */
 
 @media (max-width: 870px) {
   .container {
     min-height: 700px;
     height: 100vh;
+    background-position: 4px 350px;
+  }
+
+  .container.sign-up-mode {
+    background-position: 4px 150px;
   }
   .signin-signup {
     width: 90%;
@@ -438,6 +481,10 @@ form.sign-in-form {
     left: 50%;
   }
 
+  form.sign-in-form {
+    margin-top: 10%;
+  }
+
   .panels-container {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1.5fr 1fr;
@@ -449,6 +496,8 @@ form.sign-in-form {
     align-items: center;
     padding: 1.5rem 5%;
     grid-column: 1 / 2;
+
+    transform: translateY(-5px);
   }
 
   .right-panel {
@@ -506,30 +555,32 @@ form.sign-in-form {
     right: initial;
   }
 
-  .container.sign-up-mode .left-panel .image,
-  .container.sign-up-mode .left-panel .content {
-    transform: translateY(-200px);
+  /* MOBILE PANEL POSITIONING FIX */
+  .left-panel .content {
+    transform: translateY(0); /* visible in sign-in mode */
   }
 
-  .container.sign-up-mode .right-panel .image,
-  .container.sign-up-mode .right-panel .content {
-    transform: translateY(0);
-  }
-
-  .right-panel .image,
   .right-panel .content {
-    transform: translateY(200px);
+    transform: translateY(300px); /* hidden below in sign-in mode */
+  }
+
+  .container.sign-up-mode .left-panel .content {
+    transform: translateY(-250px); /* move up and hide in sign-up mode */
+  }
+
+  .container.sign-up-mode .right-panel .content {
+    transform: translateY(15px); /* visible in sign-up mode */
   }
 
   .container.sign-up-mode .signin-signup {
-    top: 10%;
+    top: 4%;
     transform: translate(-50%, 0);
   }
 }
 
 @media (max-width: 570px) {
   form {
-    padding: 0 1rem;
+    padding: 1.5rem;
     width: 100%;
     max-width: 350px;
   }
