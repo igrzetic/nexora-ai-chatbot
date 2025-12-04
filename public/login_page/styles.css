@@ -4,6 +4,7 @@
   /* bg-colors */
   --primary: hsl(32, 94%, 61%);
   --primary-hover: hsl(32, 94%, 55%);
+  --secondary: #6c00fa;
   --bg-dark: oklch(0.1 0 264);
   --bg-dark-inverse: oklch(0.92 0 264);
   --bg: oklch(0.2 0 264);
@@ -24,13 +25,13 @@
   --radial-top: radial-gradient(
     ellipse at top,
     oklch(from var(--primary) l c h / 0.2),
-    transparent 60%
+    transparent 70%
   );
 
   --radial-bottom: radial-gradient(
     ellipse at bottom,
     oklch(from var(--primary) l c h / 0.15),
-    transparent 60%
+    transparent 70%
   );
 
   /* text-colors */
@@ -49,8 +50,8 @@
     /* dark shadow */ 0 6px 10px #00000015; /* soft shadow */
 
   /* images */
-  --logo-light: url("./images/ollama-light-mode-logo.png");
-  --logo-dark: url("./images/ollama-dark-mode-logo.png");
+  --logo-light: url("/public/images/ollama-light-mode-logo.png");
+  --logo-dark: url("/public/images/ollama-dark-mode-logo.png");
 }
 
 body.light {
@@ -160,6 +161,69 @@ form {
   backdrop-filter: blur(var(--glass-blur)) saturate(180%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
   border-radius: 1rem;
+}
+
+.header-login {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+button.back-btn {
+  position: relative;
+  margin: 15px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--primary);
+  box-shadow: var(--shadow-l);
+  border: none;
+  outline: none;
+  border-radius: 0.5rem;
+  color: var(--text-inverse);
+  cursor: pointer;
+  overflow: hidden;
+  transition: 0.5s;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+
+button.back-btn:hover {
+  width: 200px;
+  transition: all 0.5s ease;
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+}
+
+button.back-btn .back-btn-icon {
+  padding-left: 7.5px;
+}
+
+button.back-btn .back-btn-text {
+  position: absolute;
+  left: 50px;
+  top: 50%;
+  opacity: 0;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  transform: translateY(-50%) translateX(-20px);
+  font-weight: 600;
+  color: var(--text-inverse);
+  transition: all 0.3s ease;
+}
+
+button.back-btn:hover .back-btn-text {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+h2.title {
+  margin: 0 auto;
+  flex-grow: 1;
+  text-align: center;
 }
 
 form.sign-up-form {
@@ -462,11 +526,11 @@ form.sign-in-form {
   .container {
     min-height: 700px;
     height: 100vh;
-    background-position: 4px 350px;
+    background-position: center 350px;
   }
 
   .container.sign-up-mode {
-    background-position: 4px 150px;
+    background-position: center 150px;
   }
   .signin-signup {
     width: 90%;
@@ -531,6 +595,10 @@ form.sign-in-form {
     padding: 0.25rem 0;
   }
 
+  button.back-btn {
+    margin: 5px;
+  }
+
   .btn.transparent {
     width: 100px;
     height: 35px;
@@ -557,7 +625,7 @@ form.sign-in-form {
 
   /* MOBILE PANEL POSITIONING FIX */
   .left-panel .content {
-    transform: translateY(0); /* visible in sign-in mode */
+    transform: translateY(25%); /* visible in sign-in mode */
   }
 
   .right-panel .content {
@@ -569,7 +637,7 @@ form.sign-in-form {
   }
 
   .container.sign-up-mode .right-panel .content {
-    transform: translateY(15px); /* visible in sign-up mode */
+    transform: translateY(10%); /* visible in sign-up mode */
   }
 
   .container.sign-up-mode .signin-signup {
@@ -580,9 +648,9 @@ form.sign-in-form {
 
 @media (max-width: 570px) {
   form {
-    padding: 1.5rem;
+    padding: 2rem;
     width: 100%;
-    max-width: 350px;
+    max-width: 85%;
   }
 
   .image {
@@ -593,15 +661,24 @@ form.sign-in-form {
     max-width: 100%;
   }
   .container {
+    background-position: center 110%;
     padding: 1rem;
   }
 
+  .container.sign-up-mode form.sign-up-form {
+    transform: translateY(20%);
+  }
+
+  .container.sign-up-mode {
+    background-position: center 55%;
+  }
+
   .container:before {
-    bottom: 70%;
+    bottom: 65%;
     left: 50%;
     width: 1000px;
     height: 1000px;
-    border-width: 1.5px;
+    border-width: 2.5px;
   }
 
   .container.sign-up-mode:before {

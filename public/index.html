@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Nexora AI Chatbot</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" />
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" />
   </head>
   <body class="min-h-screen terminal-grid relative overflow-x-hidden">
     <!-- Radial glow effect -->
@@ -19,7 +19,7 @@
       <div class="container mx-auto px-4 py-4 flex items-center justify-between">
         <div class="text-2xl font-bold glow-text">NEXORA</div>
         <div class="space-x-4">
-          <button onclick="window.location.href = './user_login_code/index.html';" class="border border-primary-30 bg-primary-10-hover px-4 py-2 rounded-lg">Login</button>
+          <button onclick="window.location.href = './login_page/index.html';" class="border border-primary-30 bg-primary-10-hover px-4 py-2 rounded-lg">Login</button>
           <!-- <button id="theme-toggle" class="border border-primary-30 bg-primary-10-hover px-4 py-2 rounded">Switch Theme</button> -->
         </div>
       </div>
@@ -33,12 +33,14 @@
             <span class="text-foreground">PROGRAMMING</span><br>
             <span class="text-primary">FOR FREE</span>
         </h1>
-        <p class="text-xl text-muted-foreground max-w-2xl mx-auto mt-6 leading-relaxed">
-            AI chatbot powered by Ollama model for instant code generation. Built for students who want to master programming.
-        </p>
+        <div class="text-xl text-muted-foreground max-w-2xl mx-auto mt-6 leading-relaxed">
+          <p id="typewriter-text"></p>
+          <p id="rotating-text" class="mt-4 opacity-1"></p>
+        </div>
         <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-            <button id="get-started-btn" onclick="window.location.href = './user_login_code/index.html';" class="solid bg-primary text-primary-foreground bg-primary-90-hover font-bold uppercase px-8 py-3 rounded-lg flex items-center justify-center gap-4 group">Get Started
-              <span class="material-symbols-outlined">
+            <button id="get-started-btn" onclick="window.location.href = './login_page/index.html';" class="get-started-btn solid bg-primary text-primary-foreground font-bold uppercase px-8 py-3 rounded-lg flex items-center justify-center gap-4 group">
+              <span class="gs-text">Get Started</span>
+              <span class="gs-icon material-symbols-outlined">
                 arrow_right_alt
               </span>
             </button>
@@ -47,7 +49,7 @@
      </section>
 
      <!-- Featurs Section -->
-      <section class="container mx-auto px-4 py-24">
+      <section id="features" class="container mx-auto px-4 py-24">
         <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
 
           <!-- Feature 1 -->
@@ -86,14 +88,14 @@
       </section>
 
       <!-- CTA Section -->
-       <section class="container mx-auto px-4 py-24">
+       <section id="cta" class="container mx-auto px-4 py-24">
         <div class="max-w-3xl mx-auto text-center space-y-6 p-12 bg-card-glass-20 backdrop-blur-sm border border-primary-30 rounded-2xl glow-border animate-fade-in">
           <h2 class="text-4xl font-bold">Ready to Start Learning?</h2>
           <p class="text-muted-foreground text-lg">
               Join thousands of students using Nexora AI to accelerate their programming journey.
           </p>
           <Button
-              onclick="window.location.href = './user_login_code/index.html';"
+              onclick="window.location.href = './login_page/index.html';"
               class="solid bg-primary text-primary-foreground bg-primary-90-hover font-bold uppercase tracking-wider text-lg px-12 py-3 rounded-lg"
             >
               Create Free Account
@@ -105,8 +107,12 @@
         <footer class="border-t border-primary-20 py-8 mt-24">
           <div class="container mx-auto px-4 text-center text-sm text-muted-foreground">
             <p>NEXORA © 2024 • Free AI Code Generation for Students</p>
+            <a href="https://github.com/igrzetic/nexora-ai-chatbot" rel="noopener noreferrer">
+              <img src="/public/images/github_logo_white.svg" alt="github logo" class="inline-block w-6 h-6 mt-4 bounce_icon"/>
+            </a>
           </div>
         </footer>
+        <script src="./script.js"></script>
   </body>
 </html>
-<script src="./script.js"></script>
+
