@@ -50,8 +50,8 @@
     /* dark shadow */ 0 6px 10px #00000015; /* soft shadow */
 
   /* images */
-  --logo-light: url("/public/images/ollama-light-mode-logo.png");
-  --logo-dark: url("/public/images/ollama-dark-mode-logo.png");
+  --logo-light: url("/images/ollama-light-mode-logo.png");
+  --logo-dark: url("/images/ollama-dark-mode-logo.png");
 }
 
 body.light {
@@ -82,8 +82,8 @@ body.light {
   --text-inverse-muted: oklch(0.76 0 264);
 
   /* images */
-  --logo-light: url("./images/ollama-light-mode-logo.png");
-  --logo-dark: url("./images/ollama-dark-mode-logo.png");
+  --logo-light: url("/images/ollama-light-mode-logo.png");
+  --logo-dark: url("/images/ollama-dark-mode-logo.png");
 }
 
 * {
