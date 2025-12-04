@@ -10,39 +10,22 @@ sign_in_btn.addEventListener("click", () => {
   container.classList.remove("sign-up-mode");
 });
 
-const themeToggle = document.getElementById("theme-toggle");
-const body = document.body;
+// const themeToggle = document.getElementById("theme-toggle");
+// const body = document.body;
 
-if (localStorage.getItem("theme") === "light") {
-  body.classList.add("light");
-}
+// if (localStorage.getItem("theme") === "light") {
+//   body.classList.add("light");
+// }
 
-themeToggle.addEventListener("click", () => {
-  body.classList.toggle("light");
+// themeToggle.addEventListener("click", () => {
+//   body.classList.toggle("light");
 
-  if (body.classList.contains("light")) {
-    localStorage.setItem("theme", "light");
-  } else {
-    localStorage.setItem("theme", "dark");
-  }
-});
-
-const logoImgs = document.querySelectorAll("#ollama-logo");
-
-function updateLogo() {
-  const src = document.body.classList.contains("light")
-    ? "./images/ollama-light-mode-logo.png"
-    : "./images/ollama-dark-mode-logo.png";
-  logoImgs.forEach((img) => (img.src = src));
-}
-
-// Postavi ispravnu sliku odmah po učitavanju
-updateLogo();
-
-// Ažuriraj logo kad se promijeni tema
-themeToggle.addEventListener("click", () => {
-  setTimeout(updateLogo, 100);
-});
+//   if (body.classList.contains("light")) {
+//     localStorage.setItem("theme", "light");
+//   } else {
+//     localStorage.setItem("theme", "dark");
+//   }
+// });
 
 const API_BASE =
   window.location.hostname === "localhost"
