@@ -420,18 +420,16 @@ body.light .border-primary-20 {
 
 #cursor {
   color: currentColor;
+  animation: blink 1.4s step-end infinite !important;
+  opacity: 1 !important;
 }
 
 @keyframes blink {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 1; }
+  40% { opacity: 1; }
+  50% { opacity: 0; }
+  60% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 /* Utility complements */

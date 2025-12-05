@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const texts = [
     "AI chatbot powered by Ollama model for instant code generation. Built for students who want to master programming.",
     "Learn programming concepts with instant examples and explanations.",
-    "Practice your coding skills and build projects directly in your browser."
+    "Practice your coding skills and build projects directly in your browser.",
   ];
 
   const typewriterElement = document.getElementById("typewriter-text");
@@ -28,10 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Blinking cursor
   const cursor = document.createElement("span");
   cursor.id = "cursor";
-  cursor.textContent = "|";
+  cursor.textContent = "▋";
   cursor.style.display = "inline-block";
   cursor.style.marginLeft = "4px";
-  cursor.style.animation = "blink 0.8s infinite";
+  // cursor.style.animation = "blink 0.8s infinite !important";
   typewriterElement.after(cursor);
 
   let textIndex = 0;
