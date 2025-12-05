@@ -179,7 +179,13 @@ body.light .glow-text {
 .get-started-btn {
   position: relative;
   overflow: hidden;
-  transition: 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* padding: 0.75rem 2.5rem; */
+  width: 180px;
+  height: auto;
+  transition: 0.5s ease;
 }
 
 .get-started-btn .gs-icon {
@@ -193,7 +199,7 @@ body.light .glow-text {
 .get-started-btn:hover {
   background: linear-gradient(45deg, hsl(var(--primary)), var(--accent));
   width: 215px;
-  transition: all 0.2s;
+  transition: width 0.5s ease, background 0.5s ease;
 }
 
 .get-started-btn:hover .gs-text {
@@ -425,11 +431,21 @@ body.light .border-primary-20 {
 }
 
 @keyframes blink {
-  0% { opacity: 1; }
-  40% { opacity: 1; }
-  50% { opacity: 0; }
-  60% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /* Utility complements */
