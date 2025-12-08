@@ -1,4 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from 'react';
 import Prism from 'prismjs';
 
 // Prism languages (load order matters)
@@ -36,20 +41,32 @@ interface AuthUser {
   email: string;
 }
 
+interface OllamaChunk {
+  model: string;
+  created_at: string;
+  message?: {
+    role: Role;
+    content: string;
+  };
+  done: boolean;
+}
+
 /* ────────────────────────────────────────────────────────────
  * Constants
  * ──────────────────────────────────────────────────────────── */
 
-// Single hard-coded model (no model dropdown in UI)
 const MODEL_NAME = 'llama3.2:3b';
+
+const SYSTEM_PROMPT =
+  'You are a helpful coding assistant. ' +
+  'Odgovaraj na hrvatskom jeziku kad god je moguće. ' +
+  'Kada daješ primjer koda, koristi jasno formatiranje i ukratko ga objasni. ' +
+  'Kod piši unutar code-blockova (```jezik ...```), tako da ga je lako kopirati.';
 
 /* ────────────────────────────────────────────────────────────
  * Helpers
  * ──────────────────────────────────────────────────────────── */
 
-/**
- * Normalize language hints for Prism based on a short `lang` token.
- */
 const resolveLanguage = (raw?: string) => {
   const lang = (raw || '').toLowerCase();
 
@@ -63,10 +80,6 @@ const resolveLanguage = (raw?: string) => {
   return 'javascript';
 };
 
-/**
- * Split a message into plain text segments and ```lang code``` blocks.
- * This allows us to render mixed content with syntax highlighting.
- */
 const parseMessageContent = (content: string, messageId: number): Segment[] => {
   const segments: Segment[] = [];
   const codeRegex = /```(\w+)?\s*\r?\n([\s\S]*?)```/g;
@@ -80,19 +93,18 @@ const parseMessageContent = (content: string, messageId: number): Segment[] => {
     const matchStart = match.index;
     const matchEnd = matchStart + fullMatch.length;
 
-    // Text before the code block
     if (matchStart > lastIndex) {
       const textPart = content.slice(lastIndex, matchStart);
-      if (textPart.trim().length > 0) {
+      const normalized = textPart.replace(/\n{3,}/g, '\n\n');
+      if (normalized.trim().length > 0) {
         segments.push({
           type: 'text',
-          content: textPart.trim(),
+          content: normalized,
           key: `${messageId}-text-${blockIndex}`,
         });
       }
     }
 
-    // Code block itself
     const lang = (langRaw || '').trim() || 'code';
     const code = codeRaw.replace(/\s+$/, '');
 
@@ -107,23 +119,22 @@ const parseMessageContent = (content: string, messageId: number): Segment[] => {
     blockIndex += 1;
   }
 
-  // Trailing text after the last code block
   if (lastIndex < content.length) {
     const textPart = content.slice(lastIndex);
-    if (textPart.trim().length > 0) {
+    const normalized = textPart.replace(/\n{3,}/g, '\n\n');
+    if (normalized.trim().length > 0) {
       segments.push({
         type: 'text',
-        content: textPart.trim(),
+        content: normalized,
         key: `${messageId}-text-end`,
       });
     }
   }
 
-  // If no blocks were found, treat whole content as a single text segment
   if (segments.length === 0) {
     segments.push({
       type: 'text',
-      content: content.trim(),
+      content: content,
       key: `${messageId}-text-only`,
     });
   }
@@ -132,66 +143,100 @@ const parseMessageContent = (content: string, messageId: number): Segment[] => {
 };
 
 /* ────────────────────────────────────────────────────────────
+ * Subcomponents
+ * ──────────────────────────────────────────────────────────── */
+
+interface CodeBlockProps {
+  segment: Segment;
+  copiedBlockId: string | null;
+  onCopy: (blockId: string, code: string) => void;
+}
+
+const CodeBlock: React.FC<CodeBlockProps> = ({
+  segment: seg,
+  copiedBlockId,
+  onCopy,
+}) => {
+  const lang = resolveLanguage(seg.lang);
+  const highlighted = Prism.highlight(
+    seg.content,
+    // @ts-ignore
+    Prism.languages[lang] || Prism.languages.javascript,
+    lang,
+  );
+
+  return (
+    <div className="code-block">
+      <div className="code-header">
+        <div className="code-title">
+          <span className="code-dot red" />
+          <span className="code-dot yellow" />
+          <span className="code-dot green" />
+          <span className="code-lang">
+            {(seg.lang || 'code').toUpperCase()}
+          </span>
+        </div>
+        <button
+          type="button"
+          className="code-copy-btn"
+          onClick={() => onCopy(seg.key, seg.content)}
+        >
+          {copiedBlockId === seg.key ? '✓ Kopirano' : 'Kopiraj'}
+        </button>
+      </div>
+
+      <div className="code-body">
+        <pre className={`language-${lang}`}>
+          <code
+            className={`language-${lang}`}
+            dangerouslySetInnerHTML={{ __html: highlighted }}
+          />
+        </pre>
+      </div>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────────────────────
  * Component
  * ──────────────────────────────────────────────────────────── */
 
 const App: React.FC = () => {
-  /* ── Chat state ────────────────────────────────────────── */
-
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      role: 'system',
-      content:
-        'You are a helpful coding assistant. ' +
-        'Odgovaraj na hrvatskom jeziku kad god je moguće. ' +
-        'Kada daješ primjer koda, koristi jasno formatiranje i ukratko ga objasni. ' +
-        'Kod piši unutar code-blockova (```jezik ...```), tako da ga je lako kopirati.',
-    },
-  ]);
-
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  /* ── UI state ──────────────────────────────────────────── */
-
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
   const [copiedBlockId, setCopiedBlockId] = useState<string | null>(null);
-
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
-  /* ── Auth state (demo only; backend wiring comes later) ── */
 
   const [user, setUser] = useState<AuthUser | null>({
     email: 'demo@user.com',
   });
   const [authToken, setAuthToken] = useState<string | null>(null);
 
-  /* ── Refs ──────────────────────────────────────────────── */
+  const [abortController, setAbortController] =
+    useState<AbortController | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-  /* ── Derived values ───────────────────────────────────── */
-
   const model = MODEL_NAME;
   const currentModelLabel = MODEL_NAME;
-  const visibleMessages = messages.filter((m) => m.role !== 'system');
+  const visibleMessages = messages;
+  const lastMessageId = visibleMessages[visibleMessages.length - 1]?.id;
 
-  /* ────────────────────────────────────────────────────────
-   * UI Handlers
-   * ──────────────────────────────────────────────────────── */
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const next = prev === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('nexora_theme', next);
+      return next;
+    });
+  }, []);
 
   const openSettings = () => setIsSettingsOpen(true);
   const closeSettings = () => setIsSettingsOpen(false);
 
-  /**
-   * Clear local auth state and reset demo user.
-   */
   const handleLogout = () => {
     setUser(null);
     setAuthToken(null);
@@ -200,17 +245,18 @@ const App: React.FC = () => {
     localStorage.removeItem('nexora_user_id');
   };
 
-  /**
-   * Auto-scroll to the latest message whenever messages change.
-   */
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  /**
-   * Send user input to the Ollama chat API and stream back assistant tokens.
-   */
-  const handleSend = async () => {
+  useEffect(() => {
+    const stored = localStorage.getItem('nexora_theme');
+    if (stored === 'light' || stored === 'dark') {
+      setTheme(stored);
+    }
+  }, []);
+
+  const handleSend = useCallback(async () => {
     const trimmed = input.trim();
     if (!trimmed || isLoading) return;
 
@@ -227,7 +273,6 @@ const App: React.FC = () => {
 
     const baseMessages = [...messages, userMsg];
 
-    // Add user message and an empty assistant message to be filled as tokens arrive
     setMessages([
       ...baseMessages,
       { id: assistantId, role: 'assistant', content: '' },
@@ -236,22 +281,27 @@ const App: React.FC = () => {
     setInput('');
     setIsLoading(true);
 
+    const controller = new AbortController();
+    setAbortController(controller);
+
     try {
       const payload = {
         model,
         stream: true,
-        messages: baseMessages
-          .filter((m) => m.role !== 'system')
-          .map((m) => ({
+        messages: [
+          { role: 'system' as Role, content: SYSTEM_PROMPT },
+          ...baseMessages.map((m) => ({
             role: m.role,
             content: m.content,
           })),
+        ],
       };
 
       const res = await fetch('http://localhost:11434/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
+        signal: controller.signal,
       });
 
       if (!res.ok) {
@@ -264,16 +314,19 @@ const App: React.FC = () => {
       }
 
       const decoder = new TextDecoder();
+      let doneStreaming = false;
 
-      while (true) {
+      while (!doneStreaming) {
         const { done, value } = await reader.read();
         if (done) break;
 
         const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n').filter((l) => l.trim().length > 0);
+        const lines = chunk
+          .split('\n')
+          .filter((l) => l.trim().length > 0);
 
         for (const line of lines) {
-          let data: any;
+          let data: OllamaChunk;
           try {
             data = JSON.parse(line);
           } catch {
@@ -293,23 +346,34 @@ const App: React.FC = () => {
             );
           }
 
-          if (isDone) break;
+          if (isDone) {
+            doneStreaming = true;
+            break;
+          }
         }
       }
     } catch (err: any) {
-      console.error(err);
-      setError(
-        err?.message ??
-          'Dogodila se greška pri spajanju na Ollama API. Je li Ollama pokrenut?',
-      );
+      if (err?.name === 'AbortError') {
+        console.warn('Streaming prekinut od strane korisnika.');
+      } else {
+        console.error(err);
+        setError(
+          err?.message ??
+            'Dogodila se greška pri spajanju na Ollama API. Je li Ollama pokrenut?',
+        );
+      }
     } finally {
       setIsLoading(false);
+      setAbortController(null);
     }
-  };
+  }, [input, isLoading, messages, model]);
 
-  /**
-   * Submit on Enter (single line), allow Shift+Enter for multiline input.
-   */
+  const handleStop = useCallback(() => {
+    if (abortController) {
+      abortController.abort();
+    }
+  }, [abortController]);
+
   const handleKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -317,23 +381,19 @@ const App: React.FC = () => {
     }
   };
 
-  /**
-   * Copy a code block to clipboard and show temporary "copied" state.
-   */
-  const handleCopyBlock = async (blockId: string, code: string) => {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopiedBlockId(blockId);
-      setTimeout(() => setCopiedBlockId(null), 1500);
-    } catch (err) {
-      console.error(err);
-      setError('Ne mogu kopirati kod u međuspremnik (clipboard).');
-    }
-  };
-
-  /* ────────────────────────────────────────────────────────
-   * Render
-   * ──────────────────────────────────────────────────────── */
+  const handleCopyBlock = useCallback(
+    async (blockId: string, code: string) => {
+      try {
+        await navigator.clipboard.writeText(code);
+        setCopiedBlockId(blockId);
+        setTimeout(() => setCopiedBlockId(null), 1500);
+      } catch (err) {
+        console.error(err);
+        setError('Ne mogu kopirati kod u međuspremnik (clipboard).');
+      }
+    },
+    [],
+  );
 
   return (
     <div
@@ -342,7 +402,6 @@ const App: React.FC = () => {
       }`}
     >
       <div className="chat-shell">
-        {/* ── Top navigation bar ───────────────────────────── */}
         <header className="topbar">
           <div className="topbar-main">
             <div className="topbar-title">NEXORA</div>
@@ -366,6 +425,7 @@ const App: React.FC = () => {
               onClick={openSettings}
               aria-label="Otvori postavke"
             >
+              {/* ikona postavki */}
               <svg
                 viewBox="0 0 24 24"
                 width="22"
@@ -407,7 +467,6 @@ const App: React.FC = () => {
           </div>
         </header>
 
-        {/* ── Main chat layout ─────────────────────────────── */}
         <div className="chat-body">
           <main className="chat-main">
             <div className="messages">
@@ -425,16 +484,22 @@ const App: React.FC = () => {
               {visibleMessages.map((msg) => {
                 const isUser = msg.role === 'user';
                 const isAssistant = msg.role === 'assistant';
+                const isLastAssistant =
+                  isAssistant && msg.id === lastMessageId;
 
-                const segments: Segment[] = isAssistant
-                  ? parseMessageContent(msg.content, msg.id)
-                  : [
-                      {
-                        type: 'text',
-                        content: msg.content,
-                        key: `${msg.id}-user-text`,
-                      },
-                    ];
+                const segments: Segment[] =
+                  isAssistant
+                    ? parseMessageContent(msg.content, msg.id)
+                    : [
+                        {
+                          type: 'text',
+                          content: msg.content,
+                          key: `${msg.id}-user-text`,
+                        },
+                      ];
+
+                const showInlineTyping =
+                  isLastAssistant && isLoading && msg.content.length === 0;
 
                 return (
                   <div
@@ -463,60 +528,31 @@ const App: React.FC = () => {
                       </div>
 
                       <div className="bubble-content">
-                        {segments.map((seg) =>
-                          seg.type === 'text' ? (
-                            <div className="segment-text" key={seg.key}>
-                              {seg.content}
-                            </div>
-                          ) : (
-                            <div className="code-block" key={seg.key}>
-                              <div className="code-header">
-                                <div className="code-title">
-                                  <span className="code-dot red" />
-                                  <span className="code-dot yellow" />
-                                  <span className="code-dot green" />
-                                  <span className="code-lang">
-                                    {(seg.lang || 'code').toUpperCase()}
-                                  </span>
-                                </div>
-                                <button
-                                  type="button"
-                                  className="code-copy-btn"
-                                  onClick={() =>
-                                    handleCopyBlock(seg.key, seg.content)
-                                  }
-                                >
-                                  {copiedBlockId === seg.key
-                                    ? '✓ Kopirano'
-                                    : 'Kopiraj'}
-                                </button>
+                        {showInlineTyping ? (
+                          <div className="typing-inline">
+                            <span className="typing-dot" />
+                            <span className="typing-dot" />
+                            <span className="typing-dot" />
+                          </div>
+                        ) : (
+                          segments.map((seg) =>
+                            seg.type === 'text' ? (
+                              <div
+                                className="segment-text"
+                                key={seg.key}
+                                style={{ whiteSpace: 'pre-wrap' }}
+                              >
+                                {seg.content}
                               </div>
-
-                              <div className="code-body">
-                                {(() => {
-                                  const lang = resolveLanguage(seg.lang);
-                                  const highlighted = Prism.highlight(
-                                    seg.content,
-                                    // @ts-ignore – Prism language registry typing is loose
-                                    Prism.languages[lang] ||
-                                      Prism.languages.javascript,
-                                    lang,
-                                  );
-
-                                  return (
-                                    <pre className={`language-${lang}`}>
-                                      <code
-                                        className={`language-${lang}`}
-                                        dangerouslySetInnerHTML={{
-                                          __html: highlighted,
-                                        }}
-                                      />
-                                    </pre>
-                                  );
-                                })()}
-                              </div>
-                            </div>
-                          ),
+                            ) : (
+                              <CodeBlock
+                                key={seg.key}
+                                segment={seg}
+                                copiedBlockId={copiedBlockId}
+                                onCopy={handleCopyBlock}
+                              />
+                            ),
+                          )
                         )}
                       </div>
                     </div>
@@ -527,33 +563,47 @@ const App: React.FC = () => {
               <div ref={messagesEndRef} />
             </div>
           </main>
-          {/* ── Input area ─────────────────────────────────── */}
           <form
             className="input-row"
             onSubmit={(e) => {
               e.preventDefault();
-              handleSend();
+              if (!isLoading) {
+                handleSend();
+              }
             }}
           >
             <div className="input-inner">
-              <textarea
-                className="chat-input"
-                placeholder="Napiši pitanje ili zalijepi svoj kod ovdje..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                rows={2}
-              />
+              {/* NOVO: wrap textarea + hint */}
+              <div className="input-main">
+                <textarea
+                  className="chat-input"
+                  placeholder="Napiši pitanje ili zalijepi svoj kod ovdje..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  rows={2}
+                />
+
+                <div className="input-hint">
+                  Enter = pošalji · Shift+Enter = novi red
+                </div>
+              </div>
 
               <button
                 type="submit"
                 className="send-btn"
-                disabled={isLoading || !input.trim()}
+                disabled={!input.trim() && !isLoading}
+                onClick={(e) => {
+                  if (isLoading) {
+                    e.preventDefault();
+                    handleStop();
+                  }
+                }}
               >
                 {isLoading ? (
                   <>
                     <span className="send-spinner" aria-hidden="true" />
-                    <span className="send-label">Razmišljam…</span>
+                    <span className="send-label">Zaustavi</span>
                   </>
                 ) : (
                   <>
@@ -568,14 +618,12 @@ const App: React.FC = () => {
           </form>
         </div>
 
-        {/* ── Settings modal (separate component) ──────────── */}
         <SettingsModal
           isOpen={isSettingsOpen}
           onClose={closeSettings}
           user={user}
         />
 
-        {/* ── Global error banner ─────────────────────────── */}
         {error && <div className="error-banner">{error}</div>}
       </div>
     </div>
