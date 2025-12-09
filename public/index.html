@@ -15,93 +15,172 @@
     <div class="relative z-10">
     
     <!-- Header -->
-    <header class="border-b border-primary-20 backdrop-blur-sm">
+    <header class="navbar border-header backdrop-blur-sm">
       <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-        <div class="text-2xl font-bold glow-text">NEXORA</div>
+        <a href="#top" class="logo-header text-2xl font-bold glow-text">NEXORA</a>
         <div class="space-x-4">
-          <button onclick="window.location.href = './login_page/index.html';" class="border border-primary-30 bg-primary-10-hover px-4 py-2 rounded-lg">Login</button>
-          <!-- <button id="theme-toggle" class="border border-primary-30 bg-primary-10-hover px-4 py-2 rounded">Switch Theme</button> -->
+          <button onclick="window.location.href = './login_page/index.html';" class="border border-primary-50 bg-primary-10-hover px-5 py-2 font-semibold text-xs uppercase rounded-full tracking-wide">Login</button>
         </div>
       </div>
     </header>
     
     <!-- Hero section -->
-     <section class="text-center py-24 px-4">
-        <div class="text-sm font-mono text-primary mb-4 tracking-widest">[ AI-POWERED CODE GENERATION ]</div>
-        <h1 class="text-5xl lg:text-8xl font-bold leading-tight">
-            <span class="glow-text">LEARN</span><br>
-            <span class="text-foreground">PROGRAMMING</span><br>
-            <span class="text-primary">FOR FREE</span>
-        </h1>
-        <div class="text-xl text-muted-foreground max-w-2xl mx-auto mt-6 leading-relaxed">
-          <p id="typewriter-text"></p>
-          <p id="rotating-text" class="mt-4 opacity-0"></p>
+     <section class="relative flex items-center px-4 py-16 sm:py-20 lg:py-28">
+       <div class="container hero-layout mx-auto flex flex-col items-center gap-12 lg:flex-row lg:items-center justify-between">
+        <!-- Hero left section -->
+        <div 
+        id="hero-left" class="max-w-xl text-center lg:text-left reveal">
+          <p class="mb-5 text-[0.7rem] font-mono text-foreground mb-4 py-1 px-4 rounded-full border border-primary-50 bg-primary-10/10 tracking-[0.3em] items-center inline-flex">
+            [ AI-POWERED CODE GENERATION ]
+          </p>
+
+          <h1 class="mb-4 text-4xl font-extrabold leading-tight sm:text-4xl md:text-6xl xl:text-7xl 2xl:text-8xl">
+              <span class="glow-text">LEARN</span><br>
+              <span class="text-foreground">PROGRAMMING</span><br>
+              <span class="text-primary">FOR FREE</span>
+          </h1>
+
+          <p id="typewriter-text"
+          class="mx-auto max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-base lg:mx-0">
+          </p>
+
+          <!-- CTA buttons -->
+          <div class="mt-10 flex flex-col sm:flex-row items-center gap-5">
+              <button 
+                id="get-started-btn" 
+                onclick="window.location.href = './login_page/index.html';" 
+                class="get-started-btn rounded-full btn-glow group">
+                <span class="gs-text">Get Started</span>
+                <span class="gs-icon material-symbols-outlined">
+                  arrow_right_alt
+                </span>
+              </button>
+              <button 
+              onclick="window.location.href = '#features';"
+              class="learn-more-btn border border-primary-30 bg-primary-10-hover font-bold uppercase rounded-full">
+                Learn More
+              </button>
+          </div>
+
+          <!-- Small hero chips -->
+              <div
+                class="mt-8 flex flex-wrap items-center gap-3 text-xs text-foreground justify-start">
+                <span class="chip-pill rounded-full">
+                  <span class="dot rounded-full"></span> Ollama-powered chatbot
+                </span>
+                <span class="chip-pill rounded-full">
+                  <span class="dot rounded-full"></span> Instant code suggestions
+                </span>
+                <span class="chip-pill rounded-full">
+                  <span class="dot rounded-full"></span> Built for students
+                </span>
+              </div>
         </div>
-        <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-            <button id="get-started-btn" onclick="window.location.href = './login_page/index.html';" class="get-started-btn solid bg-primary text-primary-foreground font-bold uppercase rounded-lg group">
-              <span class="gs-text">Get Started</span>
-              <span class="gs-icon material-symbols-outlined">
-                arrow_right_alt
-              </span>
-            </button>
-            <button href="#features" class="border border-primary-30 bg-primary-10-hover font-bold uppercase px-8 py-3 rounded-lg">Learn More</button>
+
+        <!-- Hero right section -->
+        <div class="terminal-wrapper w-full max-w-md shrink-0 reveal delay-150">
+          <div class="floating-panel ">
+            <div class="floating-panel-header">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+              <span class="title">nexora@ai: ~</span>
+            </div>
+            <div class="floating-panel-body text-left">
+              <p class="cmd-line">
+                <span class="prompt">$</span> generate
+                <span class="cmd-accent">"python function"></span>
+              </p>
+              <p class="cmd-output">// Nexora: Creating function...</p>
+              <pre class="code-snippet">
+  def greet(name: str) -> str:
+      return f"Hello, {name}! 👋"
+  
+  print(greet("Student"))
+              </pre>
+              <p class="cmd-status">
+                <span class="status-dot"></span> Ready for your next command
+              </p>
+            </div>
+          </div>
         </div>
+      </div>
      </section>
 
      <!-- Featurs Section -->
-      <section id="features" class="container mx-auto px-4 py-24">
-        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <section id="features" class="container mx-auto px-4 py-24 sm:py-20 md:py-24">
+        <div class="mx-auto mb-10 max-w-3xl text-center reveal">
+          <h2 class="text-foreground text-2xl font-bold sm:text-3xl lg:text-4xl tracking-wider">
+            What can Nexora do for you?
+          </h2>
+          <p class="mt-3 text-sm text-muted-foreground tracking-wide sm:text-base">
+            From your first “Hello, World” to full-stack apps, Nexora guides
+            you through every step with real, working code.
+          </p>
+        </div>
 
+        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto lg:gap-10 reveal delay-100">
           <!-- Feature 1 -->
-           <div class="feature-card p-6 bg-card-glass-30 backdrop-blur-sm border border-primary-20 rounded-2xl border-primary-40-hover transition-all group animate-fade-in">
-            <div class="feature-icon w-12 h-12 bg-primary-10 border border-primary-30 rounded flex items-center justify-center mb-4 transition-colors">
-              <span class="material-symbols-outlined text-primary text-3xl">code</span>
-            </div>
-            <h3 class="text-xl font-bold mb-2">CODE GENERATION</h3>
-            <p class="text-muted-foreground text-sm">
-               Generate production-ready code in any programming language instantly with AI.
-            </p>
-          </div>
+           <article class="feature-card-3d">
+              <div class="feature-icon-wrap">
+                <span class="material-symbols-outlined">code</span>
+              </div>
+              <h3>Code Generation</h3>
+              <p>
+                Generate clean, production-ready code in any major programming
+                language in seconds.
+              </p>
+              <span class="feature-tag">Multi-language support</span>
+            </article>
 
-          <!-- Feature 2 -->
-           <div class="feature-card p-6 bg-card-glass-30 backdrop-blur-sm border border-primary-20 rounded-2xl border-primary-40-hover transition-all group animate-fade-in">
-            <div class="feature-icon w-12 h-12 bg-primary-10 border border-primary-30 rounded flex items-center justify-center mb-4 transition-colors">
-              <span class="material-symbols-outlined text-primary text-3xl">terminal</span>
-            </div>
-            <h3 class="text-xl font-bold mb-2">TERMINAL STYLE</h3>
-            <p class="text-muted-foreground text-sm">
-               Beautiful syntax-highlighted code output in a developer-friendly terminal interface.
-            </p>
-          </div>
+            <!-- Feature 2 -->
+            <article class="feature-card-3d">
+              <div class="feature-icon-wrap">
+                <span class="material-symbols-outlined">terminal</span>
+              </div>
+              <h3>Terminal-Style Output</h3>
+              <p>
+                Get syntax-highlighted answers that feel like a real dev
+                terminal—no clutter, just signal.
+              </p>
+              <span class="feature-tag">Developer friendly</span>
+            </article>
 
-          <!-- Feature 3 -->
-           <div class="feature-card p-6 bg-card-glass-30 backdrop-blur-sm border border-primary-20 rounded-2xl border-primary-40-hover transition-all group animate-fade-in">
-            <div class="feature-icon w-12 h-12 bg-primary-10 border border-primary-30 rounded flex items-center justify-center mb-4 transition-colors">
-              <span class="material-symbols-outlined text-primary text-3xl">bolt</span>
-            </div>
-            <h3 class="text-xl font-bold mb-2">INSTANT LEARNING</h3>
-            <p class="text-muted-foreground text-sm">
-               Get explanations and examples that help you understand and learn programming concepts.
-            </p>
-          </div>
+            <!-- Feature 3 -->
+            <article class="feature-card-3d">
+              <div class="feature-icon-wrap">
+                <span class="material-symbols-outlined">bolt</span>
+              </div>
+              <h3>Instant Learning</h3>
+              <p>
+                Ask <em>why</em>, not just <em>how</em>. Nexora explains code so
+                you truly understand each concept.
+              </p>
+              <span class="feature-tag">Concept-driven</span>
+            </article>
         </div>
       </section>
 
       <!-- CTA Section -->
-       <section id="cta" class="container mx-auto px-4 py-24">
-        <div class="max-w-3xl mx-auto text-center space-y-6 p-12 bg-card-glass-20 backdrop-blur-sm border border-primary-30 rounded-2xl glow-border animate-fade-in">
-          <h2 class="text-4xl font-bold">Ready to Start Learning?</h2>
-          <p class="text-muted-foreground text-lg">
-              Join thousands of students using Nexora AI to accelerate their programming journey.
-          </p>
-          <Button
-              onclick="window.location.href = './login_page/index.html';"
-              class="solid bg-primary text-primary-foreground bg-primary-90-hover font-bold uppercase tracking-wider text-lg px-12 py-3 rounded-lg"
-            >
-              Create Free Account
-            </Button>
-        </div>
-       </section>
+       <section
+          id="cta"
+          class="container mx-auto px-4 pb-16 pt-6 sm:pb-20 md:pb-24">
+          <div class="reveal delay-150">
+            <div class="cta-panel">
+              <h2 class="tracking-wider">Ready to Start Learning?</h2>
+              <p class="tracking-wide">
+                Create a free account and start experimenting with real code,
+                real feedback, and real progress—today.
+              </p>
+              <button
+                type="button"
+                onclick="window.location.href='./login_page/index.html';"
+                class="cta-secondary-btn">
+                Create Free Account
+              </button>
+            </div>
+          </div>
+        </section>
 
        <!-- Footer -->
         <footer class="border-t border-primary-20 py-8 mt-24">

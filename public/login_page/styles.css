@@ -184,7 +184,7 @@ button.back-btn {
   box-shadow: var(--shadow-l);
   border: none;
   outline: none;
-  border-radius: 0.5rem;
+  border-radius: 9999px;
   color: var(--text-inverse);
   cursor: pointer;
   display: flex;
@@ -291,7 +291,7 @@ form.sign-in-form {
   box-shadow: var(--shadow-l);
   border: none;
   outline: none;
-  border-radius: 0.5rem;
+  border-radius: 9999px;
   color: var(--text);
   text-transform: uppercase;
   font-weight: 600;
